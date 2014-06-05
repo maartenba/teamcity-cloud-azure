@@ -12,5 +12,5 @@
   <!-- sample: 
   <bean class="bean class fully qualified name"/>
   -->
-  <bean class="jetbrains.buildServer.clouds.azure.Foo"/>
+  <bean class="jetbrains.buildServer.clouds.azure.AzureCloudClientFactory"/>
 </beans>

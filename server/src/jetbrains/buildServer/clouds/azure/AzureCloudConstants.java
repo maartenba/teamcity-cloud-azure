@@ -16,15 +16,14 @@
 
 package jetbrains.buildServer.clouds.azure;
 
-import jetbrains.buildServer.serverSide.ProjectManager;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * Created by Maarten on 6/5/2014.
  */
-public class Foo {
-  private ProjectManager myMgr;
-
-  public Foo(ProjectManager mgr) {
-    myMgr = mgr;
-  }
+public interface AzureCloudConstants {
+  @NotNull String CLOUD_CODE = "azure";
+  @NotNull String CLOUD_DISPLAY_NAME = "Microsoft Azure";
+  @NotNull String FOO_PARAM_NAME = "cloud.azure.foo";
 }
+
