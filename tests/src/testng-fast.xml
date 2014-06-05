@@ -1,0 +1,9 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="cloud-azure tests">
+  <test name="cloud-azure tests">
+    <classes>
+      <class name="SimpleTest"/>
+    </classes>
+  </test>
+</suite>
+
