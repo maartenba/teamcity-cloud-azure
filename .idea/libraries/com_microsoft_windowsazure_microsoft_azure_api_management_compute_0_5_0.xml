@@ -1,0 +1,32 @@
+<component name="libraryTable">
+  <library name="com.microsoft.windowsazure:microsoft-azure-api-management-compute:0.5.0" type="repository">
+    <properties maven-id="com.microsoft.windowsazure:microsoft-azure-api-management-compute:0.5.0" />
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/lib/azure/microsoft-azure-api-management-compute-0.5.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/azure/microsoft-azure-api-core-0.5.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/azure/httpclient-4.3.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/azure/httpcore-4.3.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/azure/commons-logging-1.1.3.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/azure/commons-codec-1.6.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/azure/mail-1.4.5.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/azure/activation-1.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/azure/javax.inject-1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/azure/jersey-client-1.13.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/azure/jersey-core-1.13.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/azure/jersey-json-1.13.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/azure/jettison-1.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/azure/stax-api-1.0.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/azure/jaxb-impl-2.2.3-1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/azure/jaxb-api-2.2.2.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/azure/stax-api-1.0-2.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/azure/jackson-core-asl-1.9.2.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/azure/jackson-mapper-asl-1.9.2.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/azure/jackson-jaxrs-1.9.2.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/azure/jackson-xc-1.9.2.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$PROJECT_DIR$/lib/azure/microsoft-azure-api-management-compute-0.5.0-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES />
+  </library>
+</component>
