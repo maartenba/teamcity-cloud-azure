@@ -2,10 +2,7 @@
   <artifact name="plugin">
     <output-path>$PROJECT_DIR$/out/artifacts/plugin</output-path>
     <properties id="ant-postprocessing">
-      <options enabled="true">
-        <file>file://$PROJECT_DIR$/build/ant.build.xml</file>
-        <target>replace-tokens-in-teamcity-plugin-xml</target>
-      </options>
+      <options enabled="true" />
     </properties>
     <root id="root">
       <element id="directory" name="server">
@@ -19,6 +16,8 @@
         </element>
       </element>
       <element id="file-copy" path="$PROJECT_DIR$/server/teamcity-server-plugin.xml" output-file-name="teamcity-plugin.xml" />
+      <element id="library" level="project" name="com.microsoft.windowsazure:microsoft-azure-api-management-compute:0.5.0" />
+      <element id="library" level="project" name="org.bouncycastle:com.springsource.org.bouncycastle.jce:1.46.0" />
     </root>
   </artifact>
 </component>

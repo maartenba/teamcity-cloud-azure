@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="org.bouncycastle:com.springsource.org.bouncycastle.jce:1.46.0" type="repository">
+    <properties maven-id="org.bouncycastle:com.springsource.org.bouncycastle.jce:1.46.0" />
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/lib/bouncycastle/com.springsource.org.bouncycastle.jce-1.46.0.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
