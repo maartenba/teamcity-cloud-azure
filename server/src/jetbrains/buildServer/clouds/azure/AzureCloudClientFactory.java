@@ -16,11 +16,13 @@
 
 package jetbrains.buildServer.clouds.azure;
 
-import jetbrains.buildServer.clouds.*;
+import jetbrains.buildServer.clouds.CloudClientFactory;
+import jetbrains.buildServer.clouds.CloudClientParameters;
+import jetbrains.buildServer.clouds.CloudRegistrar;
+import jetbrains.buildServer.clouds.CloudState;
 import jetbrains.buildServer.serverSide.AgentDescription;
 import jetbrains.buildServer.serverSide.InvalidProperty;
 import jetbrains.buildServer.serverSide.PropertiesProcessor;
-import jetbrains.buildServer.util.NamedDeamonThreadFactory;
 import jetbrains.buildServer.web.openapi.PluginDescriptor;
 import org.jetbrains.annotations.NotNull;
 
@@ -76,6 +78,8 @@ public class AzureCloudClientFactory implements CloudClientFactory {
 
   public boolean canBeAgentOfType(@NotNull final AgentDescription description) {
     final Map<String, String> ps = description.getDefinedParameters();
-    return ps.containsKey(AzureCloudConstants.FOO_PARAM_NAME);
+    return ps.containsKey(AzureCloudConstants.PARAM_NAME_PUBLISHSETTINGS)
+            && ps.containsKey(AzureCloudConstants.PARAM_NAME_SUBSCRIPTION)
+            && ps.containsKey(AzureCloudConstants.PARAM_NAME_VMNAMES);
   }
 }

@@ -38,7 +38,7 @@ public class KeyStoreUtil {
    * not have a password it has to be done this way otherwise BC can be used to load the cert into a keystore in advance and
    * password
    */
-  public KeyStore createKeyStorePKCS12(String base64Certificate) throws Exception    {
+  public KeyStore createKeyStorePKCS12(String base64Certificate, OutputStream keyStoreOutputStream, String keystorePwd) throws Exception    {
     Security.addProvider(new BouncyCastleProvider());
     KeyStore store = KeyStore.getInstance("PKCS12", BouncyCastleProvider.PROVIDER_NAME);
     store.load(null, null);
@@ -48,25 +48,8 @@ public class KeyStoreUtil {
     store.load(sslInputStream, "".toCharArray());
 
     // we need to a create a physical keystore as well here
-    OutputStream out = new ByteArrayOutputStream();
-    store.store(out, "".toCharArray());
-    out.close();
+    store.store(keyStoreOutputStream, keystorePwd.toCharArray());
+    keyStoreOutputStream.close();
     return store;
-  }
-
-  /* Used to get an SSL factory from the keystore on the fly - this is then used in the
-   * request to the service management which will match the .publishsettings imported
-   * certificate
-   */
-  private SSLSocketFactory getFactory(String base64Certificate) throws Exception  {
-    KeyManagerFactory keyManagerFactory = KeyManagerFactory.getInstance("SunX509");
-    KeyStore keyStore = createKeyStorePKCS12(base64Certificate);
-
-    // gets the TLS context so that it can use client certs attached to the
-    SSLContext context = SSLContext.getInstance("TLS");
-    keyManagerFactory.init(keyStore, "".toCharArray());
-    context.init(keyManagerFactory.getKeyManagers(), null, null);
-
-    return context.getSocketFactory();
   }
 }

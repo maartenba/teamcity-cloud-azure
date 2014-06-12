@@ -22,6 +22,8 @@ import jetbrains.buildServer.clouds.azure.util.AzurePublishSettingsParser;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
+import java.io.ByteArrayOutputStream;
+
 /**
  * Created by Maarten on 6/12/2014.
  */
@@ -43,14 +45,14 @@ public class AzurePublishSettingsParserTest extends BaseTestCase {
 
     // act
     AzurePublishSettingsParser parser = new AzurePublishSettingsParser();
-    AzurePublishSettings result = parser.parse(publishSettingsXml);
+    AzurePublishSettings result = parser.parse(publishSettingsXml, new ByteArrayOutputStream(), "");
 
     // assert
     Assert.assertEquals(result.getPublishMethod(), "AzureServiceManagementAPI");
     Assert.assertEquals(result.getManagementUrl(), "https://management.core.windows.net");
     Assert.assertNotNull(result.getManagementKeyStore());
     Assert.assertEquals(result.getSubscriptions().size(), 1);
-    Assert.assertEquals(result.getSubscriptions().get(0).getId(), " abc");
-    Assert.assertEquals(result.getSubscriptions().get(0).getName(), " def");
+    Assert.assertEquals(result.getSubscriptions().get(0).getId(), "abc");
+    Assert.assertEquals(result.getSubscriptions().get(0).getName(), "def");
   }
 }

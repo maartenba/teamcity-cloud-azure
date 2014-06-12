@@ -2,6 +2,7 @@
 <suite name="cloud-azure tests">
   <test name="cloud-azure tests">
     <classes>
+      <class name="util.AzurePublishSettingsParserTest"/>
       <class name="SimpleTest"/>
     </classes>
   </test>

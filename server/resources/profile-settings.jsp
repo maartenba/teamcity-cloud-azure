@@ -1,5 +1,5 @@
 <%--
-  ~ Copyright 2000-2012 JetBrains s.r.o.
+  ~ Copyright 2000-2014 JetBrains s.r.o.
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
   ~ you may not use this file except in compliance with the License.
@@ -18,26 +18,37 @@
 <%@ taglib prefix="props" tagdir="/WEB-INF/tags/props" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<c:set var="paramName" value="<%=AzureCloudConstants.FOO_PARAM_NAME%>"/>
+<c:set var="publishSettingsLink"><a href="https://windows.azure.com/download/publishprofile.aspx" target="_blank">Download Azure publish settings</a></c:set>
+<c:set var="paramPublishSettings" value="<%=AzureCloudConstants.PARAM_NAME_PUBLISHSETTINGS%>"/>
+<c:set var="paramSubscription" value="<%=AzureCloudConstants.PARAM_NAME_SUBSCRIPTION%>"/>
+<c:set var="paramVmNames" value="<%=AzureCloudConstants.PARAM_NAME_VMNAMES%>"/>
+
+<script type="text/javascript">
+  BS = BS || {};
+  BS.Clouds = BS.Clouds || {};
+  BS.Clouds.Azure = {};
+</script>
 
 <tr>
-  <th><label for="${paramName}">Agent images:</label></th>
+  <th><label for="secure:${paramPublishSettings}">Publish settings: <l:star/></label></th>
+  <td><props:multilineProperty name="secure:${paramPublishSettings}" className="longField" linkTitle="Publish settings XML" cols="55" rows="5" expanded="${true}" />
+    <span id="error_secure:${paramPublishSettings}" class="error"></span>
+    <span class="smallNote">Your Azure Publish Settings. ${publishSettingsLink} and copy/paste the file contents in here.</span>
+  </td>
+</tr>
+
+<tr>
+  <th><label for="${paramSubscription}">Subscription: <l:star/></label></th>
+  <td><props:textProperty name="${paramSubscription}" className="longField"/>
+    <span id="error_${paramSubscription}" class="error"></span>
+    <span class="smallNote">Subscription identifier in which the Virtual Machines will be located.</span>
+  </td>
+</tr>
+
+<tr>
+  <th><label for="${paramVmNames}">Agent VM names: <l:star/></label></th>
   <td>
-    <props:multilineProperty name="${paramName}" className="longField" linkTitle="Agent images to run" cols="55" rows="5" expanded="${true}"/>
-    <span class="smallNote">
-      List of agent images, each on new line.
-      <br/>
-      Image format: <strong>&lt;Image name&gt;@&lt;server-local path to agent installation folder&gt;</strong>
-      <br/>
-      Additional settins are specified in the following format:
-      <br/>
-      <strong>@@&lt;Image name&gt;:&lt;parameter&gt;</strong>,
-      <br/>
-      where parameter could be:
-      <br/>
-      <strong>reuse</strong> to enable agent copies re-use or
-      <br/>
-      <strong>prop:&lt;agent property&gt;=&lt;value&gt;</strong> additional property for <em>buildAgent.configuration</em> file
-    </span>
+    <props:multilineProperty name="${paramVmNames}" className="longField" linkTitle="Agent VMs to run" cols="55" rows="5" expanded="${true}"/>
+    <span class="smallNote">List of agent VMs, each on a new line.</span>
   </td>
 </tr>

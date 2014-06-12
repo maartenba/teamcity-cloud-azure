@@ -26,6 +26,7 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.io.StringReader;
 import java.security.KeyStore;
 import java.util.ArrayList;
@@ -35,12 +36,12 @@ import java.util.List;
  * Created by Maarten on 6/12/2014.
  */
 public class AzurePublishSettingsParser {
-  public AzurePublishSettings parse(String publishSettingsXml) throws Exception {
-    return parse(new InputSource(new StringReader(publishSettingsXml)));
+  public AzurePublishSettings parse(String publishSettingsXml, OutputStream keyStoreOutputStream, String keystorePwd) throws Exception {
+    return parse(new InputSource(new StringReader(publishSettingsXml)), keyStoreOutputStream, keystorePwd);
   }
 
 
-  public AzurePublishSettings parse(InputSource publishSettings) throws Exception {
+  public AzurePublishSettings parse(InputSource publishSettings, OutputStream keyStoreOutputStream, String keystorePwd) throws Exception {
     Document publishSettingsDocument = createDocumentFromInputSource(publishSettings);
 
     // Get the PublishProfile
@@ -56,7 +57,7 @@ public class AzurePublishSettingsParser {
     // Get the management KeyStore
     KeyStoreUtil keyStoreUtil = new KeyStoreUtil();
     String certificate = publishProfileElement.getAttribute("ManagementCertificate");
-    KeyStore managementKeyStore = keyStoreUtil.createKeyStorePKCS12(certificate);
+    KeyStore managementKeyStore = keyStoreUtil.createKeyStorePKCS12(certificate, keyStoreOutputStream, keystorePwd);
 
     // Get subscriptions
     List<AzureSubscription> subscriptions = new ArrayList<AzureSubscription>();

@@ -1,8 +1,8 @@
 <component name="libraryTable">
-  <library name="com.microsoft.windowsazure:microsoft-azure-api-management-compute:0.5.0" type="repository">
-    <properties maven-id="com.microsoft.windowsazure:microsoft-azure-api-management-compute:0.5.0" />
+  <library name="com.microsoft.windowsazure:microsoft-azure-api-management:0.5.0" type="repository">
+    <properties maven-id="com.microsoft.windowsazure:microsoft-azure-api-management:0.5.0" />
     <CLASSES>
-      <root url="jar://$PROJECT_DIR$/lib/azure/microsoft-azure-api-management-compute-0.5.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/azure/microsoft-azure-api-management-0.5.0.jar!/" />
       <root url="jar://$PROJECT_DIR$/lib/azure/microsoft-azure-api-core-0.5.0.jar!/" />
       <root url="jar://$PROJECT_DIR$/lib/azure/httpclient-4.3.1.jar!/" />
       <root url="jar://$PROJECT_DIR$/lib/azure/httpcore-4.3.jar!/" />
@@ -25,10 +25,9 @@
       <root url="jar://$PROJECT_DIR$/lib/azure/jackson-xc-1.9.2.jar!/" />
     </CLASSES>
     <JAVADOC>
-      <root url="jar://$PROJECT_DIR$/lib/azure/microsoft-azure-api-management-compute-0.5.0-javadoc.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/azure/microsoft-azure-api-management-0.5.0-javadoc.jar!/" />
     </JAVADOC>
     <SOURCES>
-      <root url="jar://$USER_HOME$/.ideaLibSources/microsoft-azure-api-management-compute-0.5.0-sources.jar!/" />
       <root url="jar://$USER_HOME$/.ideaLibSources/microsoft-azure-api-core-0.5.0-sources.jar!/" />
     </SOURCES>
   </library>
