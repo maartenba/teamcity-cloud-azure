@@ -32,9 +32,6 @@ import java.security.KeyStore;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by Maarten on 6/12/2014.
- */
 public class AzurePublishSettingsParser {
   public AzurePublishSettings parse(String publishSettingsXml, OutputStream keyStoreOutputStream, String keystorePwd) throws Exception {
     return parse(new InputSource(new StringReader(publishSettingsXml)), keyStoreOutputStream, keystorePwd);
@@ -46,7 +43,7 @@ public class AzurePublishSettingsParser {
 
     // Get the PublishProfile
     NodeList ndPublishProfile = publishSettingsDocument.getElementsByTagName("PublishProfile");
-    Element publishProfileElement = (Element)ndPublishProfile.item(0);
+    Element publishProfileElement = (Element) ndPublishProfile.item(0);
 
     // Get the PublishMethod
     String publishMethod = publishProfileElement.getAttribute("PublishMethod");
@@ -63,7 +60,7 @@ public class AzurePublishSettingsParser {
     List<AzureSubscription> subscriptions = new ArrayList<AzureSubscription>();
     NodeList ndSubscriptions = publishProfileElement.getElementsByTagName("Subscription");
     for (int i = 0; i < ndSubscriptions.getLength(); i++) {
-      Element subscriptionElement = (Element)ndSubscriptions.item(i);
+      Element subscriptionElement = (Element) ndSubscriptions.item(i);
       AzureSubscription subscription = new AzureSubscription(
               subscriptionElement.getAttribute("Id"), subscriptionElement.getAttribute("Name"));
       subscriptions.add(subscription);

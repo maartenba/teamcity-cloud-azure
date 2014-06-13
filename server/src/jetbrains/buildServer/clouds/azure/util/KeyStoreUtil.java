@@ -19,26 +19,19 @@ package jetbrains.buildServer.clouds.azure.util;
 import com.microsoft.windowsazure.core.utils.Base64;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 
-import javax.net.ssl.KeyManagerFactory;
-import javax.net.ssl.SSLContext;
-import javax.net.ssl.SSLSocketFactory;
 import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.security.KeyStore;
 import java.security.Security;
 
-/**
- * Created by Maarten on 6/12/2014.
- */
 public class KeyStoreUtil {
   /* Used to create the PKCS#12 store - important to note that the store is created on the fly so is in fact passwordless -
    * the JSSE fails with masqueraded exceptions so the BC provider is used instead - since the PKCS#12 import structure does
    * not have a password it has to be done this way otherwise BC can be used to load the cert into a keystore in advance and
    * password
    */
-  public KeyStore createKeyStorePKCS12(String base64Certificate, OutputStream keyStoreOutputStream, String keystorePwd) throws Exception    {
+  public KeyStore createKeyStorePKCS12(String base64Certificate, OutputStream keyStoreOutputStream, String keystorePwd) throws Exception {
     Security.addProvider(new BouncyCastleProvider());
     KeyStore store = KeyStore.getInstance("PKCS12", BouncyCastleProvider.PROVIDER_NAME);
     store.load(null, null);

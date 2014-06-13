@@ -21,7 +21,9 @@ import jetbrains.buildServer.clouds.azure.util.AzurePublishSettings;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ScheduledExecutorService;
 
@@ -29,73 +31,78 @@ import java.util.concurrent.ScheduledExecutorService;
  * Created by Maarten on 6/12/2014.
  */
 public class AzureCloudImage implements CloudImage {
-  @NotNull private final String myId;
-  @NotNull private final String myName;
-  private String mySubscriptionId;
-  @NotNull private AzurePublishSettings myPublishSettings;
-
-  @NotNull private final Map<String, AzureCloudInstance> myInstances = new ConcurrentHashMap<String, AzureCloudInstance>();
-  @Nullable private final CloudErrorInfo myErrorInfo;
-  private boolean myIsReusable = true;
-  private String[] myPersistentVmNames;
-  @NotNull private final ScheduledExecutorService myExecutor;
+  @NotNull
+  private final String id;
+  @NotNull
+  private final String name;
+  @NotNull
+  private final Map<String, AzureCloudInstance> instances = new ConcurrentHashMap<String, AzureCloudInstance>();
+  @Nullable
+  private final CloudErrorInfo errorInfo;
+  @NotNull
+  private final ScheduledExecutorService executorService;
+  private String azureSubscriptionId;
+  @NotNull
+  private AzurePublishSettings azurePublishSettings;
+  private boolean isReusable = true;
+  private String[] persistentVmNames;
 
   public AzureCloudImage(@NotNull final String imageId,
                          @NotNull final String subscriptionId,
                          @NotNull final AzurePublishSettings publishSettings,
                          @NotNull final String[] persistentVmNames,
                          @NotNull final ScheduledExecutorService executor) {
-    myId = imageId;
-    myName = imageId;
-    mySubscriptionId = subscriptionId;
-    myPublishSettings = publishSettings;
-    myPersistentVmNames = persistentVmNames;
-    myExecutor = executor;
-    myErrorInfo = null;
-    myIsReusable = true;
+    id = imageId;
+    name = imageId;
+    azureSubscriptionId = subscriptionId;
+    azurePublishSettings = publishSettings;
+    this.persistentVmNames = persistentVmNames;
+    executorService = executor;
+    errorInfo = null;
+    isReusable = true;
 
     populateMyInstances();
   }
 
   private void populateMyInstances() {
-    for (String instanceId : myPersistentVmNames) {
-      myInstances.put(instanceId, createInstance(instanceId));
+    for (String instanceId : persistentVmNames) {
+      instances.put(instanceId, createInstance(instanceId));
     }
   }
 
   public boolean isReusable() {
-    return myIsReusable;
+    return isReusable;
   }
 
   @NotNull
   public String getId() {
-    return myId;
+    return id;
   }
 
   @NotNull
   public String getName() {
-    return myName;
+    return name;
   }
 
   @NotNull
   public Collection<? extends CloudInstance> getInstances() {
-    return Collections.unmodifiableCollection(myInstances.values());
+    return Collections.unmodifiableCollection(instances.values());
   }
 
   @Nullable
   public AzureCloudInstance findInstanceById(@NotNull final String instanceId) {
-    return myInstances.get(instanceId);
+    return instances.get(instanceId);
   }
 
   @Nullable
   public CloudErrorInfo getErrorInfo() {
-    return myErrorInfo;
+    return errorInfo;
   }
 
   @NotNull
   public synchronized AzureCloudInstance startNewInstance(@NotNull final CloudInstanceUserData data) {
     // check reusable instances
-    for (AzureCloudInstance instance : myInstances.values()) {
+    for (AzureCloudInstance instance : instances.values()) {
       if (instance.getErrorInfo() == null && instance.getStatus() == InstanceStatus.STOPPED && instance.isRestartable()) {
         instance.start(data);
         return instance;
@@ -106,13 +113,13 @@ public class AzureCloudImage implements CloudImage {
   }
 
   protected AzureCloudInstance createInstance(String instanceId) {
-    return new AzureCloudInstance(instanceId, mySubscriptionId, myPublishSettings, this, myExecutor);
+    return new AzureCloudInstance(instanceId, azureSubscriptionId, azurePublishSettings, this, executorService);
   }
 
   void dispose() {
-    for (final AzureCloudInstance instance : myInstances.values()) {
+    for (final AzureCloudInstance instance : instances.values()) {
       instance.terminate();
     }
-    myInstances.clear();
+    instances.clear();
   }
 }

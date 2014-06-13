@@ -34,11 +34,11 @@ import java.util.Map;
  * Created by Maarten on 6/5/2014.
  */
 public class AzureCloudClientFactory implements CloudClientFactory {
-  @NotNull private final String myEditProfileJspPath;
+  @NotNull
+  private final String editProfileJspPath;
 
-  public AzureCloudClientFactory(@NotNull final CloudRegistrar cloudRegistrar,
-                                 @NotNull final PluginDescriptor pluginDescriptor) {
-    myEditProfileJspPath = pluginDescriptor.getPluginResourcesPath("profile-settings.jsp");
+  public AzureCloudClientFactory(@NotNull final CloudRegistrar cloudRegistrar, @NotNull final PluginDescriptor pluginDescriptor) {
+    editProfileJspPath = pluginDescriptor.getPluginResourcesPath("profile-settings.jsp");
     cloudRegistrar.registerCloudFactory(this);
   }
 
@@ -59,7 +59,7 @@ public class AzureCloudClientFactory implements CloudClientFactory {
   }
 
   public String getEditProfileUrl() {
-    return myEditProfileJspPath;
+    return editProfileJspPath;
   }
 
   @NotNull

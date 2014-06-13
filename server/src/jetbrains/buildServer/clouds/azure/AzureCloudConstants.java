@@ -24,16 +24,23 @@ import java.io.File;
  * Created by Maarten on 6/5/2014.
  */
 public class AzureCloudConstants {
-  @NotNull public static final String CLOUD_CODE = "azure";
-  @NotNull public static final String CLOUD_DISPLAY_NAME = "Microsoft Azure";
-  @NotNull public static final String PARAM_NAME_PUBLISHSETTINGS = "cloud.azure.publishsettings";
-  @NotNull public static final String PARAM_NAME_SUBSCRIPTION = "cloud.azure.subscription";
-  @NotNull public static final String PARAM_NAME_VMNAMES = "cloud.azure.vmnames";
-  @NotNull public static final String AGENT_PARAM_NAME_VMNAME = "cloud.azure.instance.vmname";
-  @NotNull public static final String KEYSTORE_NAME = "azkst.kst";
-  @NotNull public static final String KEYSTORE_PWD = "azkst";
+  @NotNull
+  public static final String CLOUD_CODE = "azure";
+  @NotNull
+  public static final String CLOUD_DISPLAY_NAME = "Microsoft Azure";
+  @NotNull
+  public static final String PARAM_NAME_PUBLISHSETTINGS = "cloud.azure.publishsettings";
+  @NotNull
+  public static final String PARAM_NAME_SUBSCRIPTION = "cloud.azure.subscription";
+  @NotNull
+  public static final String PARAM_NAME_VMNAMES = "cloud.azure.vmnames";
+  @NotNull
+  public static final String KEYSTORE_NAME = "azkst.kst";
+  @NotNull
+  public static final String KEYSTORE_PWD = "azkst";
 
-  private AzureCloudConstants() {}
+  private AzureCloudConstants() {
+  }
 
   public static String getKeyStorePath() {
     return new File(System.getProperty("java.io.tmpdir"), KEYSTORE_NAME).getPath();

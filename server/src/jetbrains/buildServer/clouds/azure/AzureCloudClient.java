@@ -27,52 +27,48 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.FileOutputStream;
-import java.io.OutputStream;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 
-/**
- * Created by Maarten on 6/5/2014.
- */
 public class AzureCloudClient extends BuildServerAdapter implements CloudClientEx {
-  @NotNull private final List<AzureCloudImage> myImages = new ArrayList<AzureCloudImage>();
-  @Nullable private CloudErrorInfo myErrorInfo;
-  @NotNull private final ScheduledExecutorService myExecutor = Executors.newSingleThreadScheduledExecutor(new NamedDeamonThreadFactory("azure-cloud-image"));
-  private final CloudClientParameters myCloudClientParams;
-  private AzurePublishSettings myPublishSettings;
+  @NotNull
+  private final List<AzureCloudImage> cloudImages = new ArrayList<AzureCloudImage>();
+  @NotNull
+  private final ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor(new NamedDeamonThreadFactory("azure-cloud-image"));
+  private final CloudClientParameters cloudClientParameters;
+  @Nullable
+  private CloudErrorInfo errorInfo;
 
-  public AzureCloudClient(CloudClientParameters cloudClientParams) {
-    myCloudClientParams = cloudClientParams;
+  public AzureCloudClient(CloudClientParameters params) {
+    cloudClientParameters = params;
 
     // Parse publish settings
-    String publishSettingsXml = cloudClientParams.getParameter(AzureCloudConstants.PARAM_NAME_PUBLISHSETTINGS);
+    String publishSettingsXml = cloudClientParameters.getParameter(AzureCloudConstants.PARAM_NAME_PUBLISHSETTINGS);
     if (publishSettingsXml == null || publishSettingsXml.trim().length() == 0) {
-      myErrorInfo = new CloudErrorInfo("No publish settings specified");
+      errorInfo = new CloudErrorInfo("No publish settings specified");
       return;
     }
 
     AzurePublishSettingsParser parser = new AzurePublishSettingsParser();
+    AzurePublishSettings publishSettings;
     try {
-      myPublishSettings = parser.parse(publishSettingsXml, new FileOutputStream(AzureCloudConstants.getKeyStorePath()), AzureCloudConstants.KEYSTORE_PWD);
+      publishSettings = parser.parse(publishSettingsXml, new FileOutputStream(AzureCloudConstants.getKeyStorePath()), AzureCloudConstants.KEYSTORE_PWD);
     } catch (Exception ex) {
-      myErrorInfo = new CloudErrorInfo("Error while parsing publish settings: " + ex.getMessage());
+      errorInfo = new CloudErrorInfo("Error while parsing publish settings: " + ex.getMessage());
       return;
     }
 
-    String subscription = cloudClientParams.getParameter(AzureCloudConstants.PARAM_NAME_SUBSCRIPTION);
+    String subscription = cloudClientParameters.getParameter(AzureCloudConstants.PARAM_NAME_SUBSCRIPTION);
     if (subscription == null || subscription.trim().length() == 0) {
-      myErrorInfo = new CloudErrorInfo("No subscription identifier specified");
+      errorInfo = new CloudErrorInfo("No subscription identifier specified");
       return;
     }
 
     // Parse VM names
-    String vmNames = cloudClientParams.getParameter(AzureCloudConstants.PARAM_NAME_VMNAMES);
+    String vmNames = cloudClientParameters.getParameter(AzureCloudConstants.PARAM_NAME_VMNAMES);
     if (vmNames == null || vmNames.trim().length() == 0) {
-      myErrorInfo = new CloudErrorInfo("No VM names specified");
+      errorInfo = new CloudErrorInfo("No VM names specified");
       return;
     }
 
@@ -89,42 +85,41 @@ public class AzureCloudClient extends BuildServerAdapter implements CloudClientE
     if (!persistentVmNames.isEmpty()) {
       String[] persistentVmNamesArray = new String[persistentVmNames.size()];
       persistentVmNames.toArray(persistentVmNamesArray);
-      AzureCloudImage image = new AzureCloudImage("Azure VMs", subscription, myPublishSettings, persistentVmNamesArray, myExecutor);
-      myImages.add(image);
+      AzureCloudImage image = new AzureCloudImage("Azure VMs", subscription, publishSettings, persistentVmNamesArray, executorService);
+      cloudImages.add(image);
     }
   }
 
   @Nullable
   private AzureCloudImage findImage(@NotNull final AgentDescription agentDescription) {
-    final String imageId = agentDescription.getConfigurationParameters().get(AzureCloudConstants.AGENT_PARAM_NAME_VMNAME);
+    final String imageId = agentDescription.getConfigurationParameters().get("agent.name");
     return imageId == null ? null : (AzureCloudImage)findImageById(imageId);
   }
 
-
   @Nullable
   private String findInstanceId(@NotNull final AgentDescription agentDescription) {
-    return agentDescription.getConfigurationParameters().get(AzureCloudConstants.AGENT_PARAM_NAME_VMNAME);
+    return agentDescription.getConfigurationParameters().get("agent.name");
   }
 
   @NotNull
   public CloudInstance startNewInstance(@NotNull CloudImage cloudImage, @NotNull CloudInstanceUserData cloudInstanceUserData) throws QuotaException {
-    return ((AzureCloudImage)cloudImage).startNewInstance(cloudInstanceUserData);
+    return ((AzureCloudImage) cloudImage).startNewInstance(cloudInstanceUserData);
   }
 
   public void restartInstance(@NotNull CloudInstance cloudInstance) {
-    ((AzureCloudInstance)cloudInstance).restart();
+    ((AzureCloudInstance) cloudInstance).restart();
   }
 
   public void terminateInstance(@NotNull CloudInstance cloudInstance) {
-    ((AzureCloudInstance)cloudInstance).terminate();
+    ((AzureCloudInstance) cloudInstance).terminate();
   }
 
   public void dispose() {
-    for (AzureCloudImage image : myImages) {
+    for (AzureCloudImage image : cloudImages) {
       image.dispose();
     }
-    myImages.clear();
-    myExecutor.shutdown();
+    cloudImages.clear();
+    executorService.shutdown();
   }
 
   public boolean isInitialized() {
@@ -133,7 +128,7 @@ public class AzureCloudClient extends BuildServerAdapter implements CloudClientE
 
   @Nullable
   public CloudImage findImageById(@NotNull String s) throws CloudException {
-    for (final AzureCloudImage image : myImages) {
+    for (final AzureCloudImage image : cloudImages) {
       if (image.getId().equals(s)) {
         return image;
       }
@@ -157,12 +152,12 @@ public class AzureCloudClient extends BuildServerAdapter implements CloudClientE
 
   @NotNull
   public Collection<? extends CloudImage> getImages() throws CloudException {
-    return Collections.unmodifiableList(myImages);
+    return Collections.unmodifiableList(cloudImages);
   }
 
   @Nullable
   public CloudErrorInfo getErrorInfo() {
-    return myErrorInfo;
+    return errorInfo;
   }
 
   public boolean canStartNewInstance(@NotNull CloudImage cloudImage) {

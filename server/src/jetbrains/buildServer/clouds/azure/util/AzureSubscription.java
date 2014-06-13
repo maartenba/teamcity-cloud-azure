@@ -16,9 +16,6 @@
 
 package jetbrains.buildServer.clouds.azure.util;
 
-/**
- * Created by Maarten on 6/12/2014.
- */
 public class AzureSubscription {
   String id;
   String name;

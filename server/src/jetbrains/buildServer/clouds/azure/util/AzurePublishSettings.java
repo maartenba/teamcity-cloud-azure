@@ -19,14 +19,11 @@ package jetbrains.buildServer.clouds.azure.util;
 import java.security.KeyStore;
 import java.util.List;
 
-/**
- * Created by Maarten on 6/12/2014.
- */
 public class AzurePublishSettings {
-  String publishMethod;
-  String managementUrl;
-  KeyStore managementKeyStore;
-  List<AzureSubscription> subscriptions;
+  private String publishMethod;
+  private String managementUrl;
+  private KeyStore managementKeyStore;
+  private List<AzureSubscription> subscriptions;
 
   public AzurePublishSettings(String publishMethod, String managementUrl, KeyStore managementKeyStore, List<AzureSubscription> subscriptions) {
     this.publishMethod = publishMethod;
