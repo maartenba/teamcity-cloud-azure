@@ -17,8 +17,13 @@
 package jetbrains.buildServer.clouds.azure;
 
 import com.microsoft.windowsazure.Configuration;
+import com.microsoft.windowsazure.core.Builder;
+import com.microsoft.windowsazure.core.utils.KeyStoreCredential;
 import com.microsoft.windowsazure.core.utils.KeyStoreType;
+import com.microsoft.windowsazure.credentials.CertificateCloudCredentials;
+import com.microsoft.windowsazure.credentials.SubscriptionCloudCredentials;
 import com.microsoft.windowsazure.management.compute.ComputeManagementClient;
+import com.microsoft.windowsazure.management.compute.ComputeManagementClientImpl;
 import com.microsoft.windowsazure.management.compute.ComputeManagementService;
 import com.microsoft.windowsazure.management.compute.HostedServiceOperations;
 import com.microsoft.windowsazure.management.compute.models.*;
@@ -30,7 +35,10 @@ import jetbrains.buildServer.clouds.InstanceStatus;
 import jetbrains.buildServer.clouds.azure.util.AzurePublishSettings;
 import jetbrains.buildServer.serverSide.AgentDescription;
 import jetbrains.buildServer.util.ExceptionUtil;
+import jetbrains.buildServer.util.FuncThrow;
+import jetbrains.buildServer.util.Util;
 import jetbrains.buildServer.util.WaitFor;
+import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -39,6 +47,7 @@ import java.net.URI;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.ServiceLoader;
 import java.util.concurrent.ScheduledExecutorService;
 
 /**
@@ -71,7 +80,7 @@ public class AzureCloudInstance implements CloudInstance {
     mySubscriptionId = subscriptionId;
     myPublishSettings = publishSettings;
     myImage = image;
-    myStatus = InstanceStatus.SCHEDULED_TO_START;
+    myStatus = InstanceStatus.STOPPED;
     myStartDate = new Date();
     myAsync = executor;
   }
@@ -143,10 +152,8 @@ public class AzureCloudInstance implements CloudInstance {
   }
 
   public void terminate() {
-    myStatus = InstanceStatus.STOPPING;
     try {
       doStop();
-      myStatus = InstanceStatus.STOPPED;
       cleanupStoppedInstance();
     } catch (final Exception e) {
       processError(e);
@@ -173,6 +180,21 @@ public class AzureCloudInstance implements CloudInstance {
   }
 
   private void doStart() throws Exception {
+    Util.doUnderContextClassLoader(getClass().getClassLoader(), new FuncThrow<Void, RuntimeException>() {
+      public Void apply() {
+        try {
+          doStartInternal();
+        } catch (Exception e) {
+          e.printStackTrace();
+        }
+        return null;
+      }
+    });
+  }
+
+  private void doStartInternal() throws Exception {
+    myStatus = InstanceStatus.STARTING;
+
     // TODO
     // AzureCloudInstance
     // LOG.info("Execution finished: " + execResult.getExitCode());
@@ -201,11 +223,29 @@ public class AzureCloudInstance implements CloudInstance {
         }
       }
     }
+
+    myStatus = InstanceStatus.RUNNING;
   }
 
   private void doStop() throws Exception {
+    Util.doUnderContextClassLoader(getClass().getClassLoader(), new FuncThrow<Void, RuntimeException>() {
+      public Void apply() {
+        try {
+          doStopInternal();
+        } catch (Exception e) {
+          e.printStackTrace();
+        }
+        return null;
+      }
+    });
+  }
+
+  private void doStopInternal() throws Exception {
+    myStatus = InstanceStatus.STOPPING;
+
     // TODO
     // LOG.info("Execution finished: " + execResult.getExitCode());
+
 
     ComputeManagementClient client = ComputeManagementService.create(ManagementConfiguration.configure(
             new URI(myPublishSettings.getManagementUrl()), mySubscriptionId, AzureCloudConstants.getKeyStorePath(), AzureCloudConstants.KEYSTORE_PWD, KeyStoreType.pkcs12));
@@ -223,7 +263,9 @@ public class AzureCloudInstance implements CloudInstance {
             if (role.getRoleType().equalsIgnoreCase(VirtualMachineRoleType.PersistentVMRole.toString())) {
               for (RoleInstance instance : serviceDeployment.getRoleInstances()) {
                 if (instance.getRoleName().equalsIgnoreCase(myId) && !instance.getInstanceStatus().equalsIgnoreCase(RoleInstanceStatus.STOPPEDVM)) {
-                  client.getVirtualMachinesOperations().shutdownAsync(serviceName, serviceDeployment.getName(), instance.getInstanceName(), new VirtualMachineShutdownParameters()).get();
+                  VirtualMachineShutdownParameters params = new VirtualMachineShutdownParameters();
+                  params.setPostShutdownAction(PostShutdownAction.StoppedDeallocated);
+                  client.getVirtualMachinesOperations().shutdownAsync(serviceName, serviceDeployment.getName(), instance.getInstanceName(), params).get();
                 }
               }
             }
@@ -231,6 +273,8 @@ public class AzureCloudInstance implements CloudInstance {
         }
       }
     }
+
+    myStatus = InstanceStatus.STOPPED;
   }
 
   private class StartAgentCommand implements Runnable {
@@ -243,7 +287,6 @@ public class AzureCloudInstance implements CloudInstance {
     public void run() {
       try {
         doStart();
-        myStatus = InstanceStatus.RUNNING;
       } catch (final Exception e) {
         processError(e);
       }
