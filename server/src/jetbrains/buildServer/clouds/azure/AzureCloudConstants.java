@@ -43,6 +43,7 @@ public class AzureCloudConstants {
   }
 
   public static String getKeyStorePath() {
+    // TODO: Right now the keystore can be used for one cloud profile only. Either support for multiple should be added or a keystore-per-cloud should be created
     return new File(System.getProperty("java.io.tmpdir"), KEYSTORE_NAME).getPath();
   }
 }
