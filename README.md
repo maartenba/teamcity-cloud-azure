@@ -15,7 +15,7 @@ This plugin provides Microsoft Azure cloud support for TeamCity. By configuring 
 
 ## Installation
 
-* Download the plugin ZIP file
+* Download the plugin ZIP file [from the latest GitHub release](/releases)
 * Copy it to the TeamCity plugins folder
 * Restart TeamCity server and verify the plugin was installed from ***Administration | Plugins List***
 * Create a new cloud profile from ***Administration | Agent Cloud*** and [enter the requested details](blob/master/docs/cloud-profile.md)
