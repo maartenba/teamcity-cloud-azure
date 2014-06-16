@@ -183,11 +183,8 @@ public class AzureCloudInstance implements CloudInstance {
   }
 
   private void doStartInternal() throws Exception {
+    LOG.info("Starting AzureCloudInstance: " + getImageId() + " - " + getInstanceId());
     instanceStatus = InstanceStatus.STARTING;
-
-    // TODO
-    // AzureCloudInstance
-    // LOG.info("Execution finished: " + execResult.getExitCode());
 
     ComputeManagementClient client = ComputeManagementService.create(ManagementConfiguration.configure(
             new URI(azurePublishSettings.getManagementUrl()), azureSubscriptionId, AzureCloudConstants.getKeyStorePath(), AzureCloudConstants.KEYSTORE_PWD, KeyStoreType.pkcs12));
@@ -215,6 +212,7 @@ public class AzureCloudInstance implements CloudInstance {
     }
 
     instanceStatus = InstanceStatus.RUNNING;
+    LOG.info("Started AzureCloudInstance: " + getImageId() + " - " + getInstanceId());
   }
 
   private void doStop() throws Exception {
@@ -231,11 +229,8 @@ public class AzureCloudInstance implements CloudInstance {
   }
 
   private void doStopInternal() throws Exception {
+    LOG.info("Stopping AzureCloudInstance: " + getImageId() + " - " + getInstanceId());
     instanceStatus = InstanceStatus.STOPPING;
-
-    // TODO
-    // LOG.info("Execution finished: " + execResult.getExitCode());
-
 
     ComputeManagementClient client = ComputeManagementService.create(ManagementConfiguration.configure(
             new URI(azurePublishSettings.getManagementUrl()), azureSubscriptionId, AzureCloudConstants.getKeyStorePath(), AzureCloudConstants.KEYSTORE_PWD, KeyStoreType.pkcs12));
@@ -265,6 +260,7 @@ public class AzureCloudInstance implements CloudInstance {
     }
 
     instanceStatus = InstanceStatus.STOPPED;
+    LOG.info("Stopped AzureCloudInstance: " + getImageId() + " - " + getInstanceId());
   }
 
   private class StartAgentCommand implements Runnable {
