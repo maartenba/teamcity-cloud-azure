@@ -1,44 +1,49 @@
-This is a IDEA project template to create a server-side only plugin for TeamCity
-For background information checkout any open-sourced plugins or see http://confluence.jetbrains.net/display/TCD65/Developing+TeamCity+Plugins
+# teamcity-cloud-azure
 
-In this sample you will find
-=============================
-- TeamCity server-side only plugin
-- Plugin version will be patched if building with IDEA build runner in TeamCity
-- Run configuration to run/debug plugin under TeamCity (use `http://localhost:8111/bs`)
-- pre-configured IDEA settings to support references to TeamCity
-- Uses `$TeamCityDistribution$` IDEA path variable as path to TeamCity home (unpacked .tar.gz or .exe distribution)
-- Bunch of libraries for most recent needed TeamCity APIs
-- Module with TestNG tests that uses TeamCity Tests API
+Microsoft Azure cloud plugin for TeamCity.
 
+License: Apache 2.0
 
-What's next? 
-=============
- - Fork this repository
- - Define `$TeamCityDistribution$` IDEA path variable with path to TeamCity home (unpacked `.tar.gz` or installed `.exe` distribution).
- - Add tomcat application server named `Tomcat 7` into IDEA settings from TeamCity distribution path
- - Change project name in IDEA
- - Update `teamcity-server-plugin.xml` to put plugin name, plugin display name and description
- - Rename `server/src/META-INF/build-server-plugin-cloud-azure.xml` to put your plugin name here and update `server/server.iml`
- - Update plugin .jar file name in `plugin` artifact
- - Update plugin .zip file name in `plugin-zip` artifact
- - Update test suite and tests with your plugin name
- - Have fun!
+----------
+**WARNING - The Microsoft Azure cloud plugin for TeamCity is still a very early alpha version. Use with caution!**
 
+----------
 
-Steps to fork template to a given repository
-===========================================
- - call git init or create new repo and local copy
- - git remote add template `git://github.com/jonnyzzz/TeamCity.PluginTemplate.git`
- - git fetch template
- - git merge template/serverOnly
- - git remote rm template
+## Plugin description
 
-Those steps makes you repo contain default template indise. 
-It's most easiest way to start.
+This plugin provides Microsoft Azure cloud support for TeamCity. By configuring a Microsoft Azure cloud in TeamCity, a set of known virtual build agents can be started and stopped on demand by the TeamCity server.
 
+## Installation
 
-License
-=======
-You may do what ever you like with those sources. 
-or I could also say the license is MIT.
+* Download the plugin ZIP file
+* Copy it to the TeamCity plugins folder
+* Restart TeamCity server and verify the plugin was installed from ***Administration | Plugins List***
+* Create a new cloud profile from ***Administration | Agent Cloud*** and [enter the requested details](blob/master/docs/cloud-profile.md)
+
+## Compatibility
+
+Microsoft Azure cloud plugin for TeamCity has been tested with TeamCity 8.1.3.
+
+## Features
+
+* Start/stop existing Microsoft Azure build agents
+
+## Roadmap/wishlist
+
+* Create/destroy Microsoft Azure build agents based on an image
+* Better looking Cloud Profile editing
+* Migrate from Java to [Kotlin](http://kotlin.jetbrains.com)
+
+## Known issues
+
+* Only one Microsoft Azure cloud configuration can be created per TeamCity server because the ```KeyStore``` being configured by the plugin only stores one management certificate.
+* Status of the VM displayed in TeamCity is not always current. The VM status is read from TeamCity's last known status, not from Microsoft Azure.
+* There are a lot of unknown issues.
+
+## Agent VM prerequisites
+
+For every VM that will be started/stopped using the Microsoft Azure cloud plugin for TeamCity, the following prerequisites should be in place:
+
+* The VM should have the TeamCity agent installed and started as a service.
+* The installed TeamCity agent must be authorized by the TeamCity server.
+* The TeamCity server and agent should be able to communicate, either over the public Internet or using a Microsoft Azure VNET. It may be necessary to open certain load balancer and/or firewall ports (e.g. the TeamCity agent port 9090).
