@@ -199,7 +199,7 @@ public class AzureCloudInstance implements CloudInstance {
       if (!serviceDeployments.isEmpty()) {
         for (HostedServiceGetDetailedResponse.Deployment serviceDeployment : serviceDeployments) {
           for (Role role : serviceDeployment.getRoles()) {
-            if (role.getRoleType().equalsIgnoreCase(VirtualMachineRoleType.PersistentVMRole.toString())) {
+            if (role.getRoleType() != null && role.getRoleType().equalsIgnoreCase(VirtualMachineRoleType.PersistentVMRole.toString())) {
               for (RoleInstance instance : serviceDeployment.getRoleInstances()) {
                 if (instance.getRoleName().equalsIgnoreCase(id) && !instance.getInstanceStatus().equalsIgnoreCase(RoleInstanceStatus.READYROLE)) {
                   client.getVirtualMachinesOperations().startAsync(serviceName, serviceDeployment.getName(), instance.getInstanceName()).get();
@@ -245,7 +245,7 @@ public class AzureCloudInstance implements CloudInstance {
       if (!serviceDeployments.isEmpty()) {
         for (HostedServiceGetDetailedResponse.Deployment serviceDeployment : serviceDeployments) {
           for (Role role : serviceDeployment.getRoles()) {
-            if (role.getRoleType().equalsIgnoreCase(VirtualMachineRoleType.PersistentVMRole.toString())) {
+            if (role.getRoleType() != null && role.getRoleType().equalsIgnoreCase(VirtualMachineRoleType.PersistentVMRole.toString())) {
               for (RoleInstance instance : serviceDeployment.getRoleInstances()) {
                 if (instance.getRoleName().equalsIgnoreCase(id) && !instance.getInstanceStatus().equalsIgnoreCase(RoleInstanceStatus.STOPPEDVM)) {
                   VirtualMachineShutdownParameters params = new VirtualMachineShutdownParameters();
