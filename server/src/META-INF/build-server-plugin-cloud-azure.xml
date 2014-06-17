@@ -13,4 +13,5 @@
   <bean class="bean class fully qualified name"/>
   -->
   <bean class="jetbrains.buildServer.clouds.azure.AzureCloudClientFactory"/>
+  <bean class="jetbrains.buildServer.clouds.azure.AzureCloudImageDetailsExtension"/>
 </beans>

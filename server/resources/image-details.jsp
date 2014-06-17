@@ -20,6 +20,8 @@
 Image name: <c:out value="${image.name}"/>
 
 <c:if test="${image.reusable}">
-  <br/>
-  Instances will be reused. Agent will be un-authorized after stop.
+  (instances will be re-used)
 </c:if>
+
+<br />
+Login to the <a href="http://manage.windowsazure.com" target="_blank">Microsoft Azure</a> portal to manage virtual machines.
