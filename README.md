@@ -45,5 +45,5 @@ Microsoft Azure cloud plugin for TeamCity has been tested with TeamCity 8.1.3.
 For every VM that will be started/stopped using the Microsoft Azure cloud plugin for TeamCity, the following prerequisites should be in place:
 
 * The VM should have the TeamCity agent installed and started as a service.
-* The installed TeamCity agent must be authorized by the TeamCity server.
 * The TeamCity server and agent should be able to communicate, either over the public Internet or using a Microsoft Azure VNET. It may be necessary to open certain load balancer and/or firewall ports (e.g. the TeamCity agent port 9090).
+* When the agent name is configured differently than the default (hostname ofhe machine), the installed TeamCity agent must be authorized by the TeamCity server.
