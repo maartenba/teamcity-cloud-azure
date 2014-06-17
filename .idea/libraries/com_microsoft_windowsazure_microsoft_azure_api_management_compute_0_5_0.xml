@@ -27,9 +27,6 @@
     <JAVADOC>
       <root url="jar://$PROJECT_DIR$/lib/azure/microsoft-azure-api-management-compute-0.5.0-javadoc.jar!/" />
     </JAVADOC>
-    <SOURCES>
-      <root url="jar://$USER_HOME$/.ideaLibSources/microsoft-azure-api-management-compute-0.5.0-sources.jar!/" />
-      <root url="jar://$USER_HOME$/.ideaLibSources/microsoft-azure-api-core-0.5.0-sources.jar!/" />
-    </SOURCES>
+    <SOURCES />
   </library>
 </component>
