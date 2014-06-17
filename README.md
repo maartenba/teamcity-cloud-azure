@@ -40,6 +40,16 @@ Microsoft Azure cloud plugin for TeamCity has been tested with TeamCity 8.1.3.
 * Status of the VM displayed in TeamCity is not always current. The VM status is read from TeamCity's last known status, not from Microsoft Azure.
 * There are a lot of unknown issues.
 
+## Contributing/running code from IntelliJ IDEA
+
+To contribute/run the code from IntelliJ IDEA, do the following:
+
+* Download and extract the Linux distribution of [TeamCity](http://www.jetbrains.com/teamcity/download/) to your system (even on Windows).
+* Clone the ```teamcity-azure-cloud``` repository.
+* Open the cloned directory in IntelliJ IDEA.
+* Set ```$TeamCityDistribution$``` to the path where TeamCity was extracted.
+* Run the ```Server``` configuration. The TeamCity server should be available from ```http://localhost:8111/bs``` with the Microsoft Azure cloud plugin for TeamCity deployed.
+
 ## Agent VM prerequisites
 
 For every VM that will be started/stopped using the Microsoft Azure cloud plugin for TeamCity, the following prerequisites should be in place:
@@ -47,3 +57,5 @@ For every VM that will be started/stopped using the Microsoft Azure cloud plugin
 * The VM should have the TeamCity agent installed and started as a service.
 * The TeamCity server and agent should be able to communicate, either over the public Internet or using a Microsoft Azure VNET. It may be necessary to open certain load balancer and/or firewall ports (e.g. the TeamCity agent port 9090).
 * When the agent name is configured differently than the default (hostname ofhe machine), the installed TeamCity agent must be authorized by the TeamCity server.
+
+More information on setting up a build agent for your TeamCity server on Microsoft Azure [can be found here](blob/master/docs/setup-build-agent-vm.md).
