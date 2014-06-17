@@ -48,12 +48,13 @@ public class AzureCloudImage implements CloudImage {
   private String[] persistentVmNames;
 
   public AzureCloudImage(@NotNull final String imageId,
+                         @NotNull final String imageName,
                          @NotNull final String subscriptionId,
                          @NotNull final AzurePublishSettings publishSettings,
                          @NotNull final String[] persistentVmNames,
                          @NotNull final ScheduledExecutorService executor) {
     id = imageId;
-    name = imageId;
+    name = imageName;
     azureSubscriptionId = subscriptionId;
     azurePublishSettings = publishSettings;
     this.persistentVmNames = persistentVmNames;

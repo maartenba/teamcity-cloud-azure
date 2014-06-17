@@ -47,7 +47,6 @@ public class AzureCloudClientFactory implements CloudClientFactory {
     return new AzureCloudClient(params);
   }
 
-
   @NotNull
   public String getCloudCode() {
     return AzureCloudConstants.CLOUD_CODE;
@@ -77,9 +76,11 @@ public class AzureCloudClientFactory implements CloudClientFactory {
   }
 
   public boolean canBeAgentOfType(@NotNull final AgentDescription description) {
-    final Map<String, String> ps = description.getDefinedParameters();
-    return ps.containsKey(AzureCloudConstants.PARAM_NAME_PUBLISHSETTINGS)
-            && ps.containsKey(AzureCloudConstants.PARAM_NAME_SUBSCRIPTION)
-            && ps.containsKey(AzureCloudConstants.PARAM_NAME_VMNAMES);
+    // TODO: Agent does not have any specific parameters defined, find out a way to do this to narrow the search for agents
+    //final Map<String, String> ps = description.getDefinedParameters();
+    //return ps.containsKey(AzureCloudConstants.PARAM_NAME_PUBLISHSETTINGS)
+    //       && ps.containsKey(AzureCloudConstants.PARAM_NAME_SUBSCRIPTION)
+    //        && ps.containsKey(AzureCloudConstants.PARAM_NAME_VMNAMES);
+    return true;
   }
 }

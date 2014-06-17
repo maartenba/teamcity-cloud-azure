@@ -85,20 +85,23 @@ public class AzureCloudClient extends BuildServerAdapter implements CloudClientE
     if (!persistentVmNames.isEmpty()) {
       String[] persistentVmNamesArray = new String[persistentVmNames.size()];
       persistentVmNames.toArray(persistentVmNamesArray);
-      AzureCloudImage image = new AzureCloudImage("Azure VMs", subscription, publishSettings, persistentVmNamesArray, executorService);
+      AzureCloudImage image = new AzureCloudImage("reusable", "Azure VMs", subscription, publishSettings, persistentVmNamesArray, executorService);
       cloudImages.add(image);
     }
   }
 
   @Nullable
   private AzureCloudImage findImage(@NotNull final AgentDescription agentDescription) {
-    final String imageId = agentDescription.getConfigurationParameters().get("agent.name");
+    // TODO: we probably want to do this based on another parameter
+    // e.g. final String imageId = agentDescription.getConfigurationParameters().get("agent.name");
+    final String imageId = "reusable";
     return imageId == null ? null : (AzureCloudImage)findImageById(imageId);
   }
 
   @Nullable
   private String findInstanceId(@NotNull final AgentDescription agentDescription) {
-    return agentDescription.getConfigurationParameters().get("agent.name");
+    // TODO: we probably want to do this based on another parameter
+    return agentDescription.getDefinedParameters().get("system.agent.name");
   }
 
   @NotNull

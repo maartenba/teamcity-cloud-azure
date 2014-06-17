@@ -105,7 +105,7 @@ public class AzureCloudInstance implements CloudInstance {
   }
 
   public String getNetworkIdentity() {
-    return "cloud.azure." + getImageId();
+    return "cloud.azure." + getImageId() +"."  + getInstanceId();
   }
 
   @NotNull
@@ -186,6 +186,7 @@ public class AzureCloudInstance implements CloudInstance {
     LOG.info("Starting AzureCloudInstance: " + getImageId() + " - " + getInstanceId());
     instanceStatus = InstanceStatus.STARTING;
 
+    // TODO: refactor this to something nicer. This is crap.
     ComputeManagementClient client = ComputeManagementService.create(ManagementConfiguration.configure(
             new URI(azurePublishSettings.getManagementUrl()), azureSubscriptionId, AzureCloudConstants.getKeyStorePath(), AzureCloudConstants.KEYSTORE_PWD, KeyStoreType.pkcs12));
 
@@ -232,6 +233,7 @@ public class AzureCloudInstance implements CloudInstance {
     LOG.info("Stopping AzureCloudInstance: " + getImageId() + " - " + getInstanceId());
     instanceStatus = InstanceStatus.STOPPING;
 
+    // TODO: refactor this to something nicer. This is crap.
     ComputeManagementClient client = ComputeManagementService.create(ManagementConfiguration.configure(
             new URI(azurePublishSettings.getManagementUrl()), azureSubscriptionId, AzureCloudConstants.getKeyStorePath(), AzureCloudConstants.KEYSTORE_PWD, KeyStoreType.pkcs12));
 
