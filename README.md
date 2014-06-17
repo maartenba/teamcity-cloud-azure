@@ -18,7 +18,7 @@ This plugin provides Microsoft Azure cloud support for TeamCity. By configuring 
 * Download the plugin ZIP file [from the latest GitHub release](/releases)
 * Copy it to the TeamCity plugins folder
 * Restart TeamCity server and verify the plugin was installed from ***Administration | Plugins List***
-* Create a new cloud profile from ***Administration | Agent Cloud*** and [enter the requested details](blob/master/docs/cloud-profile.md)
+* Create a new cloud profile from ***Administration | Agent Cloud*** and [enter the requested details](docs/cloud-profile.md)
 
 ## Compatibility
 
@@ -58,4 +58,4 @@ For every VM that will be started/stopped using the Microsoft Azure cloud plugin
 * The TeamCity server and agent should be able to communicate, either over the public Internet or using a Microsoft Azure VNET. It may be necessary to open certain load balancer and/or firewall ports (e.g. the TeamCity agent port 9090).
 * When the agent name is configured differently than the default (hostname ofhe machine), the installed TeamCity agent must be authorized by the TeamCity server.
 
-More information on setting up a build agent for your TeamCity server on Microsoft Azure [can be found here](blob/master/docs/setup-build-agent-vm.md).
+More information on setting up a build agent for your TeamCity server on Microsoft Azure [can be found here](docs/setup-build-agent-vm.md).
