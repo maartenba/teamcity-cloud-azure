@@ -70,7 +70,7 @@ public class AzureCloudInstance implements CloudInstance {
     azureSubscriptionId = subscriptionId;
     azurePublishSettings = publishSettings;
     this.image = image;
-    instanceStatus = InstanceStatus.SCHEDULED_TO_START;
+    instanceStatus = InstanceStatus.STOPPED;
     startDate = new Date();
     executorService = executor;
   }
