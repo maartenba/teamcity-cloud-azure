@@ -13,6 +13,8 @@ License: Apache 2.0
 
 This plugin provides Microsoft Azure cloud support for TeamCity. By configuring a Microsoft Azure cloud in TeamCity, a set of known virtual build agents can be started and stopped on demand by the TeamCity server.
 
+Be sure to [read my blog post on this plugin](http://blog.maartenballiauw.be/post/2014/06/18/Microsoft-Azure-cloud-plugin-for-TeamCity-(dabbling-in-Java-code).aspx) for some more information.
+
 ## Installation
 
 * Download the plugin ZIP file [from the latest GitHub release](/releases)
