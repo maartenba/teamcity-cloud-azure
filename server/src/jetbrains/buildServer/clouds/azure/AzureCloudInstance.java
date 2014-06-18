@@ -55,7 +55,7 @@ public class AzureCloudInstance implements CloudInstance {
   @NotNull
   private final AzureCloudImage image;
   @NotNull
-  private final Date startDate;
+  private Date startDate;
   @NotNull
   private final ScheduledExecutorService executorService;
   private String azureSubscriptionId;
@@ -70,7 +70,7 @@ public class AzureCloudInstance implements CloudInstance {
     azureSubscriptionId = subscriptionId;
     azurePublishSettings = publishSettings;
     this.image = image;
-    instanceStatus = InstanceStatus.STOPPED;
+    instanceStatus = InstanceStatus.SCHEDULED_TO_START;
     startDate = new Date();
     executorService = executor;
   }
@@ -185,6 +185,7 @@ public class AzureCloudInstance implements CloudInstance {
   private void doStartInternal() throws Exception {
     LOG.info("Starting AzureCloudInstance: " + getImageId() + " - " + getInstanceId());
     instanceStatus = InstanceStatus.STARTING;
+    startDate = new Date();
 
     // TODO: refactor this to something nicer. This is crap.
     ComputeManagementClient client = ComputeManagementService.create(ManagementConfiguration.configure(
