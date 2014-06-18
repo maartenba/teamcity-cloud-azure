@@ -28,3 +28,7 @@ The following information will be needed before starting this guide:
 1. Install the TeamCity agent as described in [http://confluence.jetbrains.com/display/TCD8/Setting+up+and+Running+Additional+Build+Agents](http://confluence.jetbrains.com/display/TCD8/Setting+up+and+Running+Additional+Build+Agents).
 2. Edit the ```<TeamCity Agent Home>/conf/buildagent.properties``` file and update the ```serverUrl``` value to the full URL of your TeamCity server.
 3. Start the build agent and check if it connects to the TeamCity server. If this works, the virtual machine is ready for business.
+
+## Agent authorization
+
+When the agent name is configured differently than the default (hostname of the machine), the installed TeamCity agent must be authorized manually in the TeamCity server. If you want authorization to happen automatically, make sure the ```name``` property in ```<TeamCity Agent Home>/conf/buildagent.properties``` is set to the hostname of the virtual machine.

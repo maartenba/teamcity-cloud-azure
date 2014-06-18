@@ -58,6 +58,6 @@ For every VM that will be started/stopped using the Microsoft Azure cloud plugin
 
 * The VM should have the TeamCity agent installed and started as a service.
 * The TeamCity server and agent should be able to communicate, either over the public Internet or using a Microsoft Azure VNET. It may be necessary to open certain load balancer and/or firewall ports (e.g. the TeamCity agent port 9090).
-* When the agent name is configured differently than the default (hostname ofhe machine), the installed TeamCity agent must be authorized by the TeamCity server.
+* When the agent name is configured differently than the default (hostname of the machine), the installed TeamCity agent must be authorized in the TeamCity server. If you want authorization to happen automatically, make sure the ```name``` property in ```<TeamCity Agent Home>/conf/buildagent.properties``` is set to the hostname of the virtual machine.
 
 More information on setting up a build agent for your TeamCity server on Microsoft Azure [can be found here](docs/setup-build-agent-vm.md).
