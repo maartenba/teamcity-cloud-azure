@@ -4,10 +4,7 @@ Microsoft Azure cloud plugin for TeamCity.
 
 License: Apache 2.0
 
-----------
-**WARNING - The Microsoft Azure cloud plugin for TeamCity is still a very early alpha version. Use with caution!**
-
-----------
+<div style="padding: 4px; border-left-color: navy; border-left-width: 4px; border-left-style: solid; background-color: rgb(238, 238, 238);"><strong>NOTE:</strong> While the content is this repository will still work, JetBrains now has a plugin that is the recommended way of working with TeamCity and build agents on Azure. Please check <a href="http://blog.jetbrains.com/teamcity/2014/11/introducing-teamcity-azure-plugin-run-builds-in-the-cloud/" target="_blank">this blog post</a> to learn more about it.</div>
 
 ## Plugin description
 
